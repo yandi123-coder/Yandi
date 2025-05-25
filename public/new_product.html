@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product List</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="navbar">
+    <ul>
+      <a href="index.html">Product List</a>
+      <a href="new_product.html">New Product</a>
+      <a href="best_seller.html">Best Seller</a>
+      <a href="promo.html">Promo</a>
+    </ul>
+  </div>
+
+  <section class="hero">
+    <div>
+      <h2 class="title">Alat Musik</h2>
+      <p class="hero-text">
+                Website Alat Musik Sederhana
+      </p>
+    </div>
+  </section>
+
+  <h1>Daftar Alat Musik</h1>
+
+  <div id="container"></div>
+
+  <script>
+    fetch('http://localhost:8005/api/new_produk')
+      .then(res => res.json())
+      .then(data => {
+        const grup = {};
+        data.forEach(item => {
+          const nama = item.nama.toLowerCase();
+          if (!grup[nama]) grup[nama] = [];
+          grup[nama].push(item.gambar);
+        });
+
+        const container = document.getElementById('container');
+
+        for (let alat in grup) {
+          const section = document.createElement('section');
+
+          const heading = document.createElement('h2');
+          heading.textContent = alat;
+          section.appendChild(heading);
+
+          const imageGrid = document.createElement('div');
+          imageGrid.className = 'image-grid';
+
+          grup[alat].forEach(gambar => {
+            const img = document.createElement('img');
+            img.src = `/album/${gambar}`;
+            img.alt = alat;
+            imageGrid.appendChild(img);
+          });
+
+          section.appendChild(imageGrid);
+          container.appendChild(section);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetch data:', err);
+        const container = document.getElementById('container');
+        container.textContent = 'Gagal memuat data alat musik.';
+      });
+  </script>
+
+</body>
+</html>

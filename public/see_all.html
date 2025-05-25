@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detail Produk</title>
+  <link rel="stylesheet" href="see_all.css" />
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="product-name">Nama Produk</h1>
+    <img src="" alt="Gambar Produk" id="product-image" class="product-img" />
+    <p class="description" id="product-description">
+    </p>
+
+    <a href="index.html" class="back-btn">Kembali ke Daftar Produk</a>
+  </div>
+
+
+  <script>
+
+const params = new URLSearchParams(window.location.search);
+const alat = params.get('alat');
+const gambar = params.get('gambar');
+
+console.log('Alat:', alat);
+console.log('Gambar:', gambar);
+
+fetch(`http://localhost:8005/api/alat_musik?alat=${encodeURIComponent(alat)}`)
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('product-name').textContent = data.nama;
+    document.getElementById('product-image').src = `/album/${gambar}`;  // pakai gambar dari URL
+    document.getElementById('product-image').alt = data.nama;
+  })
+  .catch(err => console.error(err));
+
+
+  </script>
+
+</body>
+</html>
