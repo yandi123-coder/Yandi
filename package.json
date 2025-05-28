@@ -16,6 +16,7 @@
     "jimp": "^1.6.0",
     "multer": "^2.0.0",
     "myexpress": "^2.0.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "package_name": "^1.0.2"
   }
 }

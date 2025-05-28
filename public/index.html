@@ -34,54 +34,34 @@
 
   <script>
     fetch('http://localhost:8005/api/finish')
-      .then(res => res.json())
-      .then(data => {
-        const grup = {};
-        data.forEach(item => {
-          const nama = item.nama.toLowerCase();
-          if (!grup[nama]) grup[nama] = [];
-          grup[nama].push(item.gambar);
-        });
+    .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById('container');
 
-        const container = document.getElementById('container');
+    data.forEach(item => {
+      // buat elemen section untuk setiap alat musik
+      const section = document.createElement('section');
 
-        for (let alat in grup) {
-          const section = document.createElement('section');
+      // nama alat musik
+      const heading = document.createElement('h2');
+      heading.textContent = item.nama;
+      section.appendChild(heading);
 
-          const heading = document.createElement('h2');
-          heading.textContent = alat;
-          section.appendChild(heading);
+      // gambar alat musik
+      const img = document.createElement('img');
+      // sumber gambar diarahkan ke endpoint static backend
+      img.src = `/album/${item.gambar}`;
+      img.alt = item.nama;
+      img.style.width = '200px'; // contoh styling, sesuaikan
 
-          const imageGrid = document.createElement('div');
-          imageGrid.className = 'image-grid';
+      section.appendChild(img);
 
-          grup[alat].forEach(gambar => {
-
-            const link = document.createElement('a');
-            link.href = `/see_all.html?alat=${encodeURIComponent(alat)}&gambar=${encodeURIComponent(gambar)}`;
-            // link.href = `/see_all.html?alat=${encodeURIComponent(alat)}&gambar=${encodeURIComponent(gambar)}`;
-            // link.href = `/see_all.html?id=${encodeURIComponent(item.id)}`;
-
-            link.target = '_blank';
-            
-            const img = document.createElement('img');
-            img.src = `/album/${gambar}`;
-            img.alt = alat;
-            
-
-            link.appendChild(img);
-            imageGrid.appendChild(link);
-          });
-
-          container.appendChild(section);
-          section.appendChild(imageGrid);
-        }
-      })
-      .catch(err => {
-        console.error('Error fetch data:', err);
-        const container = document.getElementById('container');
-        container.textContent = 'Gagal memuat data alat musik.';
-      });
+      container.appendChild(section);
+    });
+  })
+  .catch(err => {
+    console.error('Error fetch data:', err);
+  });
   </script>
 
 </body>
