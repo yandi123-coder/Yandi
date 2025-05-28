@@ -39,20 +39,16 @@
     const container = document.getElementById('container');
 
     data.forEach(item => {
-      // buat elemen section untuk setiap alat musik
       const section = document.createElement('section');
 
-      // nama alat musik
       const heading = document.createElement('h2');
       heading.textContent = item.nama;
       section.appendChild(heading);
 
-      // gambar alat musik
       const img = document.createElement('img');
-      // sumber gambar diarahkan ke endpoint static backend
       img.src = `/album/${item.gambar}`;
       img.alt = item.nama;
-      img.style.width = '200px'; // contoh styling, sesuaikan
+      img.style.width = '200px';
 
       section.appendChild(img);
 
